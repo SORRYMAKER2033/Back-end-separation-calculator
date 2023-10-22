@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.calculator.dao.CalculateDao">
+
+    <resultMap id="BaseResultMap" type="com.example.calculator.entity.Calculate">
+        <!--@Table admin-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="formula" column="formula" jdbcType="VARCHAR"/>
+        <result property="result" column="result" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+            id, formula, result from calculate
+        where id = #{id}
+    </select>
+
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+        id, formula, result from calculate
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllByPage" resultMap="BaseResultMap">
+        select
+            id, formula, result from calculate order by id limit 0,#{page}
+    </select>
+
+    <!--获取最后一条记录-->
+    <select id="getLastRecord" resultMap="BaseResultMap">
+        select
+            id, formula, result from calculate order by id desc limit 1
+    </select>
+    <!--新增-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into calculate(
+        <if test="formula != null and formula != ''">
+            formula,
+        </if>
+        <if test="result != null and result != ''">
+            result
+        </if>
+        )
+        values (
+        <if test="formula != null and formula != ''">
+            #{formula},
+        </if>
+        <if test="result != null and result != ''">
+            #{result}
+        </if>
+        )
+    </insert>
+
+
+</mapper>
